@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">OrdersApp</string>
     <string name="Hey_there">Hey, There,</string>
+    <string name="create_acount">Create an Account</string>
+    <string name="welcome">Welcome back</string>
+    <string name="first_name">First name</string>
 </resources>
