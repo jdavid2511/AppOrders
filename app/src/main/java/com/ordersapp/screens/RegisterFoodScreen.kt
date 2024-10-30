@@ -3,11 +3,13 @@ package com.ordersapp.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -23,91 +25,44 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ordersapp.R
+import com.ordersapp.components.DoubleTextComponents
+import com.ordersapp.components.HeadingTextComponents
+import com.ordersapp.components.boxChairComponent
+import com.ordersapp.components.buttonaddComponent
+import com.ordersapp.ui.theme.Primary
 
 @Composable
 fun  RegisterfoodScreen() {
-    var foodName by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var price by remember { mutableStateOf("") }
-    var successMessage by remember { mutableStateOf("") }
-
-    val roundedShape: Shape = RoundedCornerShape(16.dp)
-
-    Surface(
+    Surface (
         color = Color.White,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(28.dp)
+            .padding(top = 50.dp, start = 28.dp, end = 28.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Top
-        ) {
-            Text(
-                text = "Registro de Comidas",
-                fontSize = 24.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+        Column {
+            HeadingTextComponents(value = "Agregar Mesa")
 
-            OutlinedTextField(
-                value = foodName,
-                onValueChange = { foodName = it },
-                label = { Text("Nombre de la comida") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                shape = roundedShape
-            )
+            buttonaddComponent()
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = description,
-                onValueChange = { description = it },
-                label = { Text("Descripción") },
-                modifier = Modifier.fillMaxWidth(),
-                shape = roundedShape
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = price,
-                onValueChange = { price = it },
-                label = { Text("Precio") },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                shape = roundedShape
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = {
-                    successMessage = "Comida registrada exitosamente: $foodName"
-                    // Aquí puedes añadir la lógica para guardar la comida en la base de datos o lista
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Registrar Comida")
+            Row (modifier = Modifier.fillMaxWidth().height(30.dp)) {
+                DoubleTextComponents("Mesas", "Ver Más")
             }
-
-            if (successMessage.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(
-                    text = successMessage,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 16.sp
-                )
+            Column {
+                boxChairComponent("Mesa#1", "$45.000")
+                boxChairComponent("Mesa#2", "$45.000")
+                boxChairComponent("Mesa#9", "$45.000")
+                boxChairComponent("Mesa#3", "$45.000")
             }
         }
+
     }
 }
 
