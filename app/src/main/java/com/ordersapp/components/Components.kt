@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -43,7 +41,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
@@ -74,7 +71,6 @@ import com.ordersapp.ui.theme.Secundary
 import com.ordersapp.ui.theme.TextColor
 import com.ordersapp.ui.theme.WhiteColor
 import com.ordersapp.ui.theme.bgPrimary
-import com.ordersapp.ui.theme.btnColor
 import com.ordersapp.ui.theme.textbtn
 
 
@@ -97,7 +93,7 @@ fun NormalTextComponents(value: String, heightInt: Int) {
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
         ),
-        color = Color.Black,
+        color = TextColor,
        textAlign = TextAlign.Center
     )
 }
@@ -112,7 +108,7 @@ fun HeadingTextComponents(value: String) {
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal,
         ),
-        color = Color.Black,
+        color = TextColor,
         textAlign = TextAlign.Center,
         fontFamily = rubik
     )
@@ -136,7 +132,7 @@ fun EditTextComponents(labelValue: String, painterResource: Painter) {
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.Gray,
             focusedLabelColor = Color.Gray,
-            cursorColor = Color.Black
+            cursorColor = TextColor
         ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Next),
         singleLine = true,
@@ -178,7 +174,7 @@ fun PasswordTextComponents(labelValue: String, painterResource: Painter) {
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.Gray,
             focusedLabelColor = Color.Gray,
-            cursorColor = Color.Black
+            cursorColor = TextColor
         ),
         shape = roundedShape,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
@@ -415,7 +411,7 @@ fun buttonaddComponent(withInt: Int, padding: Int) {
                     .widthIn(withInt.dp)
                     .heightIn(70.dp)
                     .background(
-                        color = btnColor,
+                        color = Primary,
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -442,7 +438,7 @@ fun DoubleTextComponents(value1: String, value2: String) {
             text = value1,
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
-            color = Black,
+            color = TextColor,
             fontFamily = rubik
         )
 
@@ -450,7 +446,7 @@ fun DoubleTextComponents(value1: String, value2: String) {
             text = value2,
             fontSize = 20.sp,
             fontWeight = FontWeight.Light,
-            color = btnColor,
+            color = Primary,
             fontFamily = rubik
         )
     }
@@ -476,8 +472,8 @@ fun boxChairComponent(chair: String, check: String) {
                 .shadow(
                     elevation = 20.dp,
                     shape = RoundedCornerShape(50.dp),
-                    ambientColor = btnColor,
-                    spotColor = btnColor,
+                    ambientColor = Primary,
+                    spotColor = Primary,
                 ),
             contentPadding = PaddingValues(),
         ) {
@@ -502,14 +498,14 @@ fun boxChairComponent(chair: String, check: String) {
                         text = chair,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = Black
+                        color = TextColor
                     )
 
                     Text(
                         text = check,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Black
+                        color = TextColor
                     )
                 }
             }
@@ -530,7 +526,7 @@ fun TopAccessComponent(table: String) {
             text = table,
             fontSize = 35.sp,
             fontWeight = FontWeight.Normal,
-            color = Black,
+            color = TextColor,
             fontFamily = rubik
         )
         Button(
@@ -581,8 +577,8 @@ fun productTableComponent(product: String, price: String, quantity: String) {
                 .shadow(
                     elevation = 20.dp,
                     shape = RoundedCornerShape(50.dp),
-                    ambientColor = btnColor,
-                    spotColor = btnColor,
+                    ambientColor = Primary,
+                    spotColor = Primary,
                 )
                 .background(
                     color = WhiteColor,
@@ -601,16 +597,16 @@ fun productTableComponent(product: String, price: String, quantity: String) {
                     Text(
                         text = product,
                         fontSize = 15.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Black,
+                        fontWeight = FontWeight.Normal,
+                        color = TextColor,
                         fontFamily = rubik
                     )
 
                     Text(
                         text = price,
                         fontSize = 15.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = btnColor,
+                        fontWeight = FontWeight.Light,
+                        color = Primary,
                         fontFamily = rubik
                     )
                 }
@@ -643,7 +639,7 @@ fun productTableComponent(product: String, price: String, quantity: String) {
                                 modifier = Modifier.width(10.dp),
                                 painter = painterResource(id = R.drawable.minus),
                                 contentDescription = "minus",
-                                tint = btnColor
+                                tint = Primary
                             )
                         }
                     }
@@ -651,8 +647,8 @@ fun productTableComponent(product: String, price: String, quantity: String) {
                     Text(
                         text = contQuatity.toString(),
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Black,
+                        fontWeight = FontWeight.Normal,
+                        color = TextColor,
                         fontFamily = rubik
                     )
 
@@ -669,7 +665,7 @@ fun productTableComponent(product: String, price: String, quantity: String) {
                                 .widthIn(24.dp)
                                 .heightIn(24.dp)
                                 .background(
-                                    color = btnColor,
+                                    color = Primary,
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
@@ -708,7 +704,7 @@ fun TotalAccountComponent(value: String, total: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
-                        color = btnColor,
+                        color = Primary,
                         shape = RoundedCornerShape(20.dp)
                     ),
                 contentAlignment = Alignment.Center
