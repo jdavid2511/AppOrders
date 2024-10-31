@@ -43,7 +43,7 @@ fun SignInScreen (){
         Column (modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())) {
-            NormalTextComponents(value = stringResource(id = R.string.Hey_there))
+            NormalTextComponents(value = stringResource(id = R.string.Hey_there), 40)
             HeadingTextComponents(value = stringResource(id = R.string.welcome))
             EditTextComponents(labelValue = stringResource(id = R.string.email), painterResource = painterResource(
                 id = R.drawable.mail

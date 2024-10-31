@@ -5,12 +5,16 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -27,6 +31,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -42,6 +47,7 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -60,24 +66,32 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ordersapp.R
+import com.ordersapp.app.PostOfficeAppRouter
+import com.ordersapp.app.Screen
 import com.ordersapp.ui.theme.GrayColor
 import com.ordersapp.ui.theme.Primary
 import com.ordersapp.ui.theme.Secundary
 import com.ordersapp.ui.theme.TextColor
 import com.ordersapp.ui.theme.WhiteColor
+import com.ordersapp.ui.theme.bgPrimary
 import com.ordersapp.ui.theme.btnColor
+import com.ordersapp.ui.theme.textbtn
 
 
 val rubik = FontFamily(
-    Font(R.font.rubik_bold, FontWeight.Normal)
+    Font(R.font.rubik_bold, FontWeight.Bold),
+    Font(R.font.rubik_regular, FontWeight.Normal),
+    Font(R.font.rubik_black, FontWeight.Black),
+    Font(R.font.rubik_medium, FontWeight.Normal),
+    Font(R.font.rubik_light, FontWeight.Light),
 )
 @Composable
-fun NormalTextComponents(value: String) {
+fun NormalTextComponents(value: String, heightInt: Int) {
     Text(
         text = value,
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 40.dp),
+            .heightIn(min = heightInt.dp),
         style = TextStyle(
             fontSize = 24.sp,
             fontWeight = FontWeight.Normal,
@@ -95,7 +109,7 @@ fun HeadingTextComponents(value: String) {
         modifier = Modifier.fillMaxWidth(),
         style = TextStyle(
             fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal,
         ),
         color = Color.Black,
@@ -380,25 +394,25 @@ fun ClickableForgetPassTextComponent(onTextSeleccted: (String) -> Unit) {
 }
 
 @Composable
-fun buttonaddComponent() {
+fun buttonaddComponent(withInt: Int, padding: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(56.dp)
-            .padding(16.dp),
+            .padding(padding.dp),
         horizontalArrangement = Arrangement.Center
     ) {
         Button(
-            onClick = {},
+            onClick = { },
             modifier = Modifier
-                .widthIn(178.dp)
+                .widthIn(withInt.dp)
                 .heightIn(70.dp),
             shape = RoundedCornerShape(25.dp),
             contentPadding = PaddingValues(),
         ) {
             Box(
                 modifier = Modifier
-                    .widthIn(178.dp)
+                    .widthIn(withInt.dp)
                     .heightIn(70.dp)
                     .background(
                         color = btnColor,
@@ -427,7 +441,7 @@ fun DoubleTextComponents(value1: String, value2: String) {
         Text(
             text = value1,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Normal,
             color = Black,
             fontFamily = rubik
         )
@@ -435,7 +449,7 @@ fun DoubleTextComponents(value1: String, value2: String) {
         Text(
             text = value2,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Light,
             color = btnColor,
             fontFamily = rubik
         )
@@ -453,17 +467,18 @@ fun boxChairComponent(chair: String, check: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Button(
-            onClick = {},
+            onClick = {
+                PostOfficeAppRouter.navigateTo(Screen.TableOrderScreen)
+            },
             modifier = Modifier
                 .widthIn(178.dp)
-                .heightIn(50.dp)
+                .heightIn(45.dp)
                 .shadow(
-                    elevation = 9.dp,
+                    elevation = 20.dp,
                     shape = RoundedCornerShape(50.dp),
                     ambientColor = btnColor,
                     spotColor = btnColor,
-                )
-                .background(WhiteColor),
+                ),
             contentPadding = PaddingValues(),
         ) {
             Box(
@@ -486,7 +501,7 @@ fun boxChairComponent(chair: String, check: String) {
                     Text(
                         text = chair,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Normal,
                         color = Black
                     )
 
@@ -495,6 +510,232 @@ fun boxChairComponent(chair: String, check: String) {
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Black
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TopAccessComponent(table: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp), // Add horizontal padding
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = table,
+            fontSize = 35.sp,
+            fontWeight = FontWeight.Normal,
+            color = Black,
+            fontFamily = rubik
+        )
+        Button(
+            onClick = {
+                PostOfficeAppRouter.navigateTo(Screen.RegisterFoodScreen)
+            },
+            modifier = Modifier
+                .widthIn(44.dp)
+                .heightIn(44.dp),
+            shape = RoundedCornerShape(10.dp),
+            contentPadding = PaddingValues(),
+        ) {
+            Box(
+                modifier = Modifier
+                    .widthIn(44.dp)
+                    .heightIn(44.dp)
+                    .background(
+                        color = bgPrimary,
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "X",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Thin,
+                    color = textbtn,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun productTableComponent(product: String, price: String, quantity: String) {
+    var contQuatity : Int = quantity.toInt()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(40.dp)
+            .padding(10.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(50.dp)
+                .shadow(
+                    elevation = 20.dp,
+                    shape = RoundedCornerShape(50.dp),
+                    ambientColor = btnColor,
+                    spotColor = btnColor,
+                )
+                .background(
+                    color = WhiteColor,
+                    shape = RoundedCornerShape(50.dp)
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp), // Add horizontal padding
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column {
+                    Text(
+                        text = product,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Black,
+                        fontFamily = rubik
+                    )
+
+                    Text(
+                        text = price,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = btnColor,
+                        fontFamily = rubik
+                    )
+                }
+
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp), // Add horizontal padding
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+
+                    Button(
+                        onClick = {contQuatity--},
+                        modifier = Modifier
+                            .widthIn(24.dp)
+                            .heightIn(24.dp),
+                        shape = RoundedCornerShape(20.dp),
+                        contentPadding = PaddingValues(),
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .widthIn(24.dp)
+                                .heightIn(24.dp)
+                                .background(
+                                    color = bgPrimary,
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                modifier = Modifier.width(10.dp),
+                                painter = painterResource(id = R.drawable.minus),
+                                contentDescription = "minus",
+                                tint = btnColor
+                            )
+                        }
+                    }
+
+                    Text(
+                        text = contQuatity.toString(),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Black,
+                        fontFamily = rubik
+                    )
+
+                    Button(
+                        onClick = {contQuatity++},
+                        modifier = Modifier
+                            .widthIn(24.dp)
+                            .heightIn(24.dp),
+                        shape = RoundedCornerShape(20.dp),
+                        contentPadding = PaddingValues(),
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .widthIn(24.dp)
+                                .heightIn(24.dp)
+                                .background(
+                                    color = btnColor,
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                modifier = Modifier.width(10.dp),
+                                painter = painterResource(id = R.drawable.plus),
+                                contentDescription = "Plus"
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+@Composable
+fun TotalAccountComponent(value: String, total: String) {
+    Surface (
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        color = WhiteColor,
+        shadowElevation = 16.dp
+    ) {
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(90.dp)
+                .padding(10.dp),
+            shape = RoundedCornerShape(20.dp),
+            contentPadding = PaddingValues(),
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = btnColor,
+                        shape = RoundedCornerShape(20.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(90.dp)
+                        .padding(
+                            horizontal = 60.dp,
+                            vertical = 16.dp
+                        ),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = value,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = WhiteColor
+                    )
+
+                    Text(
+                        text = total,
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = WhiteColor
                     )
                 }
             }

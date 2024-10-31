@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import com.ordersapp.screens.RegisterfoodScreen
 import com.ordersapp.screens.SignInScreen
 import com.ordersapp.screens.SignUpScreen
+import com.ordersapp.screens.TableOrderScreen
 
 @Composable
 fun PostOfficeApp() {
@@ -26,6 +27,9 @@ fun PostOfficeApp() {
                 }
                 is Screen.SignUpScreen -> {
                     SignUpScreen()
+                }
+                is Screen.TableOrderScreen -> {
+                    TableOrderScreen()
                 }
             }
 

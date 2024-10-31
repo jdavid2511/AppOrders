@@ -44,7 +44,7 @@ fun SignUpScreen () {
         Column (modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())) {
-            NormalTextComponents(value = stringResource(id = R.string.Hey_there))
+            NormalTextComponents(value = stringResource(id = R.string.Hey_there), 40)
             HeadingTextComponents(value = stringResource(id = R.string.create_acount))
             EditTextComponents(labelValue = stringResource(id = R.string.first_name), painterResource = painterResource(
                 id = R.drawable.user

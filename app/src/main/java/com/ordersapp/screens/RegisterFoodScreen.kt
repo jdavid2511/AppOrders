@@ -50,16 +50,16 @@ fun  RegisterfoodScreen() {
         Column {
             HeadingTextComponents(value = "Agregar Mesa")
 
-            buttonaddComponent()
+            buttonaddComponent(178, 16)
 
             Row (modifier = Modifier.fillMaxWidth().height(30.dp)) {
                 DoubleTextComponents("Mesas", "Ver Más")
             }
             Column {
-                boxChairComponent("Mesa#1", "$45.000")
-                boxChairComponent("Mesa#2", "$45.000")
-                boxChairComponent("Mesa#9", "$45.000")
-                boxChairComponent("Mesa#3", "$45.000")
+                boxChairComponent("Mesa #1", "$45.000")
+                boxChairComponent("Mesa #2", "$45.000")
+                boxChairComponent("Mesa #9", "$45.000")
+                boxChairComponent("Mesa #3", "$45.000")
             }
         }
 
