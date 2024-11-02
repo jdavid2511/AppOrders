@@ -47,12 +47,7 @@ fun SignInScreen (){
             HeadingTextComponents(value = stringResource(id = R.string.welcome))
             EditTextComponents(labelValue = stringResource(id = R.string.email), painterResource = painterResource(
                 id = R.drawable.mail
-            )
-            )
-            PasswordTextComponents(labelValue = stringResource(id = R.string.password), painterResource = painterResource(
-                id = R.drawable.lock
-            )
-            )
+            ))
             Spacer(modifier = Modifier.height(30.dp))
 
             ClickableForgetPassTextComponent(onTextSeleccted = {})
@@ -60,12 +55,6 @@ fun SignInScreen (){
             Spacer(modifier = Modifier.height(80.dp))
 
             buttonComponent(value = "Login")
-
-            dividerTextComponent()
-
-            ClickableLoginTextComponent(true, onTextSeleccted = {
-                PostOfficeAppRouter.navigateTo(Screen.SignUpScreen)
-            })
         }
     }
 }
