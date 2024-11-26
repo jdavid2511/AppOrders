@@ -48,11 +48,9 @@ fun SignInScreen (){
             EditTextComponents(labelValue = stringResource(id = R.string.email), painterResource = painterResource(
                 id = R.drawable.mail
             ))
+
+            PasswordTextComponents(labelValue = "Password", painterResource = painterResource(id = R.drawable.lock))
             Spacer(modifier = Modifier.height(30.dp))
-
-            ClickableForgetPassTextComponent(onTextSeleccted = {})
-
-            Spacer(modifier = Modifier.height(80.dp))
 
             buttonComponent(value = "Login")
         }

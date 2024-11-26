@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,20 +28,20 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -66,9 +68,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.ordersapp.R
 import com.ordersapp.app.PostOfficeAppRouter
 import com.ordersapp.app.Screen
+import com.ordersapp.data.category.Category
 import com.ordersapp.ui.theme.GrayColor
 import com.ordersapp.ui.theme.Primary
 import com.ordersapp.ui.theme.Secundary
@@ -76,6 +81,7 @@ import com.ordersapp.ui.theme.TextColor
 import com.ordersapp.ui.theme.WhiteColor
 import com.ordersapp.ui.theme.bgPrimary
 import com.ordersapp.ui.theme.textbtn
+import com.ordersapp.viewmodel.Event
 
 
 val rubik = FontFamily(
@@ -744,23 +750,39 @@ fun TotalAccountComponent(value: String, total: String) {
 }
 
 @Composable
-fun DrawerDemo() {
-    // [START android_compose_layout_material_modal_drawer]
-    ModalNavigationDrawer(
-        drawerContent = {
-            ModalDrawerSheet {
-                Text("Drawer title", modifier = Modifier.padding(16.dp))
-                HorizontalDivider()
-                NavigationDrawerItem(
-                    label = { Text(text = "Drawer Item") },
-                    selected = false,
-                    onClick = { /*TODO*/ }
+fun buttonSaveComponent(value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(56.dp)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(48.dp),
+            contentPadding = PaddingValues(),
+            colors = ButtonDefaults.buttonColors(Color.Transparent)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(48.dp)
+                    .background(
+                        brush = Brush.horizontalGradient(listOf(Secundary, Primary)),
+                        shape = RoundedCornerShape(50.dp)
+                    ),
+
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = value,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
-                // ...other drawer items
             }
         }
-    ) {
-        // Screen content
     }
-    // [END android_compose_layout_material_modal_drawer]
 }

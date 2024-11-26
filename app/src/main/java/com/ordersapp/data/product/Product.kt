@@ -17,8 +17,11 @@ data class Product (
     @ColumnInfo(name = "id")
     var id: Int? = null,
 
-    @ColumnInfo(name = "text")
-    var text: String,
+    @ColumnInfo(name = "name")
+    var name: String,
+
+    @ColumnInfo(name = "precio")
+    var precio: String,
 
     @ColumnInfo(name = "category_id")
     var category: Category
