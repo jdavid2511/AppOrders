@@ -6,7 +6,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.ordersapp.components.DrawerDemo
+import com.ordersapp.screens.AddProductTableScreen
 import com.ordersapp.screens.RegisterfoodScreen
 import com.ordersapp.screens.SignInScreen
 import com.ordersapp.screens.TableOrderScreen
@@ -27,6 +27,9 @@ fun PostOfficeApp() {
                 }
                 is Screen.TableOrderScreen -> {
                     TableOrderScreen()
+                }
+                is Screen.AddProductTableScreen -> {
+                    AddProductTableScreen()
                 }
             }
 

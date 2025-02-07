@@ -11,3 +11,5 @@ val BgColor = Color(0xFFF7F8F8)
 val Primary = Color(0xFFE3B162)
 val textbtn = Color(0xFFA1835E)
 val bgPrimary = Color(0xFFF2E1C5)
+
+
