@@ -42,9 +42,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -777,25 +775,41 @@ fun TotalAccountComponent(value: String, total: String) {
 }
 
 @Composable
-fun DrawerDemo() {
-    // [START android_compose_layout_material_modal_drawer]
-    ModalNavigationDrawer(
-        drawerContent = {
-            ModalDrawerSheet {
-                Text("Drawer title", modifier = Modifier.padding(16.dp))
-                HorizontalDivider()
-                NavigationDrawerItem(
-                    label = { Text(text = "Drawer Item") },
-                    selected = false,
-                    onClick = { /*TODO*/ }
+fun buttonSaveComponent(value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(56.dp)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(48.dp),
+            contentPadding = PaddingValues(),
+            colors = ButtonDefaults.buttonColors(Color.Transparent)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(48.dp)
+                    .background(
+                        brush = Brush.horizontalGradient(listOf(Secundary, Primary)),
+                        shape = RoundedCornerShape(50.dp)
+                    ),
+
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = value,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
-                // ...other drawer items
             }
         }
-    ) {
-        // Screen content
     }
-    // [END android_compose_layout_material_modal_drawer]
 }
 
 @Composable
