@@ -8,40 +8,42 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddBusiness
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -49,6 +51,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -68,12 +71,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.ordersapp.R
 import com.ordersapp.app.PostOfficeAppRouter
 import com.ordersapp.app.Screen
 import com.ordersapp.data.category.Category
+import com.ordersapp.presentation.ProductState
 import com.ordersapp.ui.theme.GrayColor
 import com.ordersapp.ui.theme.Primary
 import com.ordersapp.ui.theme.Secundary
@@ -81,7 +83,7 @@ import com.ordersapp.ui.theme.TextColor
 import com.ordersapp.ui.theme.WhiteColor
 import com.ordersapp.ui.theme.bgPrimary
 import com.ordersapp.ui.theme.textbtn
-import com.ordersapp.viewmodel.Event
+import com.ordersapp.viewModel.ProductViewModel
 
 
 val rubik = FontFamily(
@@ -126,13 +128,10 @@ fun HeadingTextComponents(value: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTextComponents(labelValue: String, painterResource: Painter) {
+fun EditTextComponents(labelValue: String, imageVector: ImageVector, keyboardType: KeyboardType, value: String, onValueChange: (String) -> Unit) {
 
     val roundedShape: Shape = RoundedCornerShape(50.dp)
 
-    val textValue = remember {
-        mutableStateOf("")
-    }
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,17 +143,15 @@ fun EditTextComponents(labelValue: String, painterResource: Painter) {
             focusedLabelColor = Color.Gray,
             cursorColor = TextColor
         ),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Next),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = ImeAction.Next),
         singleLine = true,
         maxLines = 1,
-        value = textValue.value,
-        onValueChange = {
-            textValue.value = it
-        },
+        value = value,
+        onValueChange = onValueChange,
         leadingIcon = {
             Icon(
                 modifier = Modifier.height(20.dp),
-                painter = painterResource,
+                imageVector = imageVector,
                 contentDescription = ""
             )
         },
@@ -750,7 +747,7 @@ fun TotalAccountComponent(value: String, total: String) {
 }
 
 @Composable
-fun buttonSaveComponent(value: String) {
+fun buttonSaveComponent(onClick: () -> Unit, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -759,7 +756,7 @@ fun buttonSaveComponent(value: String) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Button(
-            onClick = {},
+            onClick = onClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(48.dp),
@@ -785,4 +782,86 @@ fun buttonSaveComponent(value: String) {
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownWithIdAndName(items: List<Category>, selectedCategoryId: Int, onItemSelected: (Int) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    val selectedCategory = items.find { it.id == selectedCategoryId }
+    Box(modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        ExposedDropdownMenuBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(4.dp))
+                .heightIn(min = 40.dp),
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            OutlinedTextField(
+                value = selectedCategory?.name ?: "",
+                onValueChange = {},
+                readOnly = true,
+                placeholder = {
+                    Text(
+                        text = "Categoria",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.AddBusiness,
+                        contentDescription = "Person Icon",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                ),
+                shape = RoundedCornerShape(percent = 50),
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                items.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(item.name) },
+                        onClick = {
+                            onItemSelected(selectedCategoryId)
+                            expanded = false
+                        },
+                    )
+                }
+            }
+        }
+    }
+}
+
+// Example usage
+@Composable
+fun ExampleScreen(productState: ProductState, viewModel: ProductViewModel) {
+    val items = remember {
+        listOf(
+            Category(1, "Comidas Rapidas"),
+            Category(2, "Bebidas frias"),
+            Category(3, "Bebidas calientes")
+        )
+    }
+
+    DropdownWithIdAndName(
+        items = items,
+        selectedCategoryId = productState.categoryId.value,
+        onItemSelected = { productState.categoryId.value = it }
+    )
 }

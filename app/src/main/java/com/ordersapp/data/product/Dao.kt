@@ -1,25 +1,29 @@
 package com.ordersapp.data.product
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Insert
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ProductDao {
+interface Dao {
 
-    @Insert
-    fun insert(product: Product)
+    @Upsert
+    suspend fun upsertProduct(product: Product)
 
     @Update
     fun update(product: Product)
 
+    @Delete
+    fun deleteAllProduct(product: Product)
+
     @Query("DELETE FROM product WHERE id =:id")
-    fun delete(id: Int)
+    fun deleteProduct(id: Int)
 
     @Query("SELECT * FROM product")
-    fun all(): LiveData<List<Product>>
+    fun getAllProducts(): Flow<List<Product>>
 
     @Query("SELECT * FROM product WHERE id = :id")
     suspend fun findById(id: Int): Product

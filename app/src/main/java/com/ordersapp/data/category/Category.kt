@@ -14,7 +14,4 @@ data class Category(
 
     @ColumnInfo(name = "name")
     var name: String,
-
-    @ColumnInfo(name = "update")
-    var update: Date?
 )
