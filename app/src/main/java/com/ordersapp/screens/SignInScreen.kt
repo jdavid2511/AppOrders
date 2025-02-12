@@ -8,13 +8,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ordersapp.R
@@ -29,7 +31,6 @@ import com.ordersapp.components.HeadingTextComponents
 import com.ordersapp.components.NormalTextComponents
 import com.ordersapp.components.PasswordTextComponents
 import com.ordersapp.components.buttonComponent
-import com.ordersapp.components.dividerTextComponent
 
 @Composable
 fun SignInScreen (){
@@ -45,9 +46,7 @@ fun SignInScreen (){
             .verticalScroll(rememberScrollState())) {
             NormalTextComponents(value = stringResource(id = R.string.Hey_there), 40)
             HeadingTextComponents(value = stringResource(id = R.string.welcome))
-            EditTextComponents(labelValue = stringResource(id = R.string.email), painterResource = painterResource(
-                id = R.drawable.mail
-            ))
+            EditTextComponents(labelValue = stringResource(id = R.string.email), imageVector = Icons.Default.Mail, keyboardType = KeyboardType.Text,  value = "", onValueChange = {})
 
             PasswordTextComponents(labelValue = "Password", painterResource = painterResource(id = R.drawable.lock))
             Spacer(modifier = Modifier.height(30.dp))

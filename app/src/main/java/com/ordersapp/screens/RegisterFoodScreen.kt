@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
@@ -19,9 +21,11 @@ import com.ordersapp.components.DoubleTextComponents
 import com.ordersapp.components.HeadingTextComponents
 import com.ordersapp.components.boxChairComponent
 import com.ordersapp.components.buttonaddComponent
+import com.ordersapp.presentation.ProductState
 
+@Preview
 @Composable
-fun  RegisterfoodScreen() {
+fun  RegisterfoodScreen(productState: ProductState) {
     Surface (
         color = Color.White,
         modifier = Modifier
@@ -39,19 +43,14 @@ fun  RegisterfoodScreen() {
                 .height(30.dp)) {
                 DoubleTextComponents("Mesas", "Ver Más")
             }
-            Column (modifier = Modifier.verticalScroll(rememberScrollState())){
-                boxChairComponent("Mesa #1", "$45.000")
-                boxChairComponent("Mesa #2", "$45.000")
-                boxChairComponent("Mesa #9", "$45.000")
-                boxChairComponent("Mesa #3", "$45.000")
+            Column (){
+                LazyColumn {
+                    items(productState.products){ product ->
+                        boxChairComponent("Mesa #"+product.id, product.name)
+                    }
+                }
             }
         }
 
     }
-}
-
-@Preview
-@Composable
-fun DefaultPreviewOfRegisterFoodScreen(){
-    RegisterfoodScreen()
 }

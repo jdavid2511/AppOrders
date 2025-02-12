@@ -10,8 +10,6 @@ sealed class Screen {
     object AddProductTableScreen : Screen()
 }
 
-
-
 object PostOfficeAppRouter {
     var currentScreen: MutableState<Screen> = mutableStateOf(Screen.AddProductTableScreen)
 

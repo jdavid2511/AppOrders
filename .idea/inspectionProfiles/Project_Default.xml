@@ -29,6 +29,9 @@
     <inspection_tool class="AndroidElementNotAllowed" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AndroidLintAaptCrash" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AndroidLintAcceptsUserCertificates" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="AndroidLintAccessibilityFocus" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintAccessibilityScrollActions" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintAccessibilityWindowStateChangedEvent" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintAccidentalOctal" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AndroidLintActivityIconColor" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AndroidLintAdapterViewChildren" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -50,6 +53,7 @@
     <inspection_tool class="AndroidLintApplySharedPref" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AndroidLintAssertionSideEffect" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AndroidLintAuthLeak" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="AndroidLintAutoboxingStateCreation" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintAutofill" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AndroidLintBackButton" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintBadHostnameVerifier" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -297,6 +301,7 @@
     <inspection_tool class="AndroidLintPermissionImpliesUnsupportedChromeOsHardware" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AndroidLintPermissionImpliesUnsupportedHardware" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AndroidLintPermissionNamingConvention" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintPictureInPictureIssue" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintPinSetExpiry" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AndroidLintPlaySdkIndexGenericIssues" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AndroidLintPlaySdkIndexNonCompliant" enabled="true" level="ERROR" enabled_by_default="true" />
@@ -682,6 +687,10 @@
     <inspection_tool class="ComplexRedundantLet" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="ComponentNotRegistered" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ComponentRegistrationProblems" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="ComposePreviewDimensionRespectsLimit" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="ComposePreviewMustBeTopLevelFunction" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ComposePreviewNeedsComposableAnnotation" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ComposePreviewNotSupportedInUnitTestFiles" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="ConditionCoveredByFurtherCondition" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ConditionSignal" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ConditionalBreakInInfiniteLoop" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -758,6 +767,7 @@
     </inspection_tool>
     <inspection_tool class="DataProviderReturnType" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="DateToString" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="DeclarativeUnresolvedReference" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="DeclareCollectionAsInterface" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="DeclaringClassMigration" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="DeconstructionCanBeUsed" enabled="false" level="INFORMATION" enabled_by_default="false" />
@@ -939,6 +949,10 @@
     <inspection_tool class="FunctionWithLambdaExpressionBody" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="FunctionalExpressionCanBeFolded" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="FuseStreamOperations" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="GlancePreviewDimensionRespectsLimit" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="GlancePreviewMustBeTopLevelFunction" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="GlancePreviewNeedsComposableAnnotation" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="GlancePreviewNotSupportedInUnitTestFiles" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="GrAnnotationReferencingUnknownIdentifiers" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="GrDeprecatedAPIUsage" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="GrEqualsBetweenInconvertibleTypes" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1520,6 +1534,7 @@
     <inspection_tool class="NumericOverflow" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="NumericToString" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="OCDFA" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="OCGlobalDFAInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="OCInconsistentNaming" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="OCUnusedClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="OCUnusedConcept" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -2275,8 +2290,15 @@
       <option name="SUGGEST_PRIVATE_FOR_INNERS" value="false" />
     </inspection_tool>
     <inspection_tool class="WearMargin" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="WearTilePreviewComposableAnnotationIsNotSupported" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="WearTilePreviewContextComesFromParameter" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="WearTilePreviewDeviceSpec" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="WearTilePreviewHasValidMethodSignature" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="WearTilePreviewMethodIsAnnotatedWithTilePreviewAnnotation" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="WearTilePreviewNotSupportedInJavaUnitTestFiles" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="WearTilePreviewNotSupportedInKotlinUnitTestFiles" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="WearTilePreviewNotSupportedInUnitTestFiles" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="WearTilePreviewShouldBeTopLevelFunction" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="WhenWithOnlyElse" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="WhileCanBeDoWhile" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="WhileCanBeForeach" enabled="true" level="WARNING" enabled_by_default="true" />
