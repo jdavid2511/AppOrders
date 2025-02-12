@@ -1,10 +1,10 @@
-package com.ordersapp.data.table
+package com.ordersapp.data.tableproductscrossref
 
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 import com.ordersapp.data.product.Product
-import com.ordersapp.data.product.TableProductsCrossRef
+import com.ordersapp.data.table.Table
 
 data class TableProducts(
     @Embedded

@@ -8,7 +8,7 @@ import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface Dao {
+interface ProductDao {
 
     @Upsert
     suspend fun upsertProduct(product: Product)

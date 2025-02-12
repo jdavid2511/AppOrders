@@ -3,7 +3,7 @@ package com.ordersapp.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ordersapp.data.product.Product
-import com.ordersapp.data.product.AppDatabase
+import com.ordersapp.data.di.AppDatabase
 import com.ordersapp.presentation.ProductState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +19,7 @@ class ProductViewModel @Inject constructor(var database: AppDatabase) : ViewMode
 
     private var getAllProducts = MutableStateFlow(true)
     private var product = getAllProducts.flatMapLatest {
-        database.Dao().getAllProducts()
+        database.productDao().getAllProducts()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     val _state = MutableStateFlow(ProductState())
@@ -36,7 +36,7 @@ class ProductViewModel @Inject constructor(var database: AppDatabase) : ViewMode
         )
 
         viewModelScope.launch {
-            database.Dao().upsertProduct(product)
+            database.productDao().upsertProduct(product)
         }
 
         state.value.id.value = 0
@@ -55,7 +55,7 @@ class ProductViewModel @Inject constructor(var database: AppDatabase) : ViewMode
         )
 
         viewModelScope.launch {
-            database.Dao().deleteAllProduct(product)
+            database.productDao().deleteAllProduct(product)
         }
 
         state.value.id.value = 0

@@ -2,7 +2,6 @@ package com.ordersapp.data.di
 
 import android.app.Application
 import androidx.room.Room
-import com.ordersapp.data.product.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
