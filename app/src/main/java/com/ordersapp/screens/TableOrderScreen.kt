@@ -36,36 +36,41 @@ fun TableOrderScreen () {
             .background(Color.White)
             .padding(top = 50.dp)
     ) {
-        Column {
-            TopAccessComponent(table = "Mesa #1")
-            NormalTextComponents(value = "Agregar", 10)
-            buttonaddComponent(70, 5)
-            Spacer(modifier = Modifier.padding(10.dp))
-            Row (modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp)) {
-                DoubleTextComponents("Pedido", "Borrar todo")
-            }
-            Spacer(modifier = Modifier.padding(5.dp))
-            Column (
-                modifier = Modifier
-                    .height(400.dp)
-                    .padding(horizontal = 16.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                productTableComponent("Papas Fritas", "$15.000", "2")
-                productTableComponent("Picada", "$5.000", "2")
-                productTableComponent("Salchipapa", "$12.000", "2")
-                productTableComponent("desgranado", "$10.000", "2")
-            }
-        }
-        Box(
-            modifier = Modifier.fillMaxSize()
-                .padding(8.dp)
-                    .navigationBarsPadding(),
-            contentAlignment = Alignment.BottomCenter
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            TotalAccountComponent("Total", "$45.000")
+            Column {
+                TopAccessComponent(table = "Mesa #1")
+                NormalTextComponents(value = "Agregar", 10)
+                buttonaddComponent(70, 5)
+                Spacer(modifier = Modifier.padding(10.dp))
+                Row (modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)) {
+                    DoubleTextComponents("Pedido", "Borrar todo")
+                }
+                Spacer(modifier = Modifier.padding(5.dp))
+                Column (
+                    modifier = Modifier
+                        .height(400.dp)
+                        .padding(horizontal = 16.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    productTableComponent("Papas Fritas", "$15.000", "2")
+                    productTableComponent("Picada", "$5.000", "2")
+                    productTableComponent("Salchipapa", "$12.000", "2")
+                    productTableComponent("desgranado", "$10.000", "2")
+                }
+            }
+            Box(
+                modifier = Modifier.fillMaxSize()
+                    .padding(8.dp)
+                    .navigationBarsPadding(),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                TotalAccountComponent("Total", "$45.000")
+            }
         }
     }
 }

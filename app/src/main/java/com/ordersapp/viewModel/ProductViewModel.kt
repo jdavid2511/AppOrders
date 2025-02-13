@@ -6,10 +6,14 @@ import com.ordersapp.data.product.Product
 import com.ordersapp.data.di.AppDatabase
 import com.ordersapp.presentation.ProductState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -63,4 +67,8 @@ class ProductViewModel @Inject constructor(var database: AppDatabase) : ViewMode
         state.value.price.value= ""
         state.value.categoryId.value = 0
     }
+
+    fun getProductsByCategory(categoryId: Int): Flow<List<Product>> = flow {
+        emit(database.productDao().findByCategory(categoryId))
+    }.flowOn(Dispatchers.IO)
 }

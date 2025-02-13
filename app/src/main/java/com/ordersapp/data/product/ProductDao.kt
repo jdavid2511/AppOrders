@@ -17,14 +17,14 @@ interface ProductDao {
     fun update(product: Product)
 
     @Delete
-    fun deleteAllProduct(product: Product)
-
-    @Query("DELETE FROM product WHERE id =:id")
-    fun deleteProduct(id: Int)
+    suspend fun deleteAllProduct(product: Product)
 
     @Query("SELECT * FROM product")
     fun getAllProducts(): Flow<List<Product>>
 
     @Query("SELECT * FROM product WHERE id = :id")
     suspend fun findById(id: Int): Product
+
+    @Query("SELECT * FROM product WHERE category_id = :categoryId")
+    fun findByCategory(categoryId: Int): List<Product>
 }

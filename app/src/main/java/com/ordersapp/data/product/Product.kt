@@ -10,7 +10,7 @@ import com.ordersapp.data.table.Table
 data class Product (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Int? = null,
+    var id: Int,
 
     @ColumnInfo(name = "name")
     var name: String,

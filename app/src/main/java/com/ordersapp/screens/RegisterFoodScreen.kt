@@ -23,7 +23,6 @@ import com.ordersapp.components.boxChairComponent
 import com.ordersapp.components.buttonaddComponent
 import com.ordersapp.presentation.ProductState
 
-@Preview
 @Composable
 fun  RegisterfoodScreen(productState: ProductState) {
     Surface (
@@ -51,6 +50,5 @@ fun  RegisterfoodScreen(productState: ProductState) {
                 }
             }
         }
-
     }
 }

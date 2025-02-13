@@ -3,29 +3,20 @@ package com.ordersapp.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CurrencyExchange
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ordersapp.components.EditTextComponents
-import com.ordersapp.components.ExampleScreen
 import com.ordersapp.R
+import com.ordersapp.app.PostOfficeAppRouter
+import com.ordersapp.app.Screen
 import com.ordersapp.components.ButtonAddProduct
 import com.ordersapp.components.HeadingTextComponents
-import com.ordersapp.components.NormalTextComponents
-import com.ordersapp.components.buttonSaveComponent
 import com.ordersapp.presentation.ProductState
 import com.ordersapp.viewModel.ProductViewModel
 
@@ -49,22 +40,28 @@ fun AddProductTableScreen(viewModel: ProductViewModel, productState: ProductStat
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item {
-                    ButtonAddProduct(categoryName = "comida Rapida", image = R.drawable.burger)
+                    ButtonAddProduct(categoryName = "comida Rapida", image = R.drawable.burger, onClick = { PostOfficeAppRouter.navigateTo(
+                        Screen.ListOfProducts(categoryId = 1))})
                 }
                 item {
-                    ButtonAddProduct(categoryName = "Bebidas Frias", image = R.drawable.drink)
+                    ButtonAddProduct(categoryName = "Bebidas Frias", image = R.drawable.drink, onClick = { PostOfficeAppRouter.navigateTo(
+                        Screen.ListOfProducts(categoryId = 2))})
                 }
                 item {
-                    ButtonAddProduct(categoryName = "Bebidas Calientes", image = R.drawable.drink)
+                    ButtonAddProduct(categoryName = "Bebidas Calientes", image = R.drawable.drink, onClick = { PostOfficeAppRouter.navigateTo(
+                        Screen.ListOfProducts(categoryId = 3))})
                 }
                 item {
-                    ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries)
+                    ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { PostOfficeAppRouter.navigateTo(
+                        Screen.ListOfProducts(categoryId = 4))})
                 }
                 item {
-                    ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries)
+                    ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { PostOfficeAppRouter.navigateTo(
+                        Screen.ListOfProducts(categoryId = 5))})
                 }
                 item {
-                    ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries)
+                    ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { PostOfficeAppRouter.navigateTo(
+                        Screen.ListOfProducts(categoryId = 6))})
                 }
             }
         }

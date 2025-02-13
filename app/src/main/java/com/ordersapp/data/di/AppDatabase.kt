@@ -9,7 +9,7 @@ import com.ordersapp.data.table.Table
 import com.ordersapp.data.table.TableDao
 import com.ordersapp.data.tableproductscrossref.TableProductsCrossRefDao
 
-@Database(entities = [Product::class, Table::class, TableProductsCrossRef::class], version = 3, exportSchema = true)
+@Database(entities = [Product::class, Table::class, TableProductsCrossRef::class], version = 4, exportSchema = true)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun productDao(): ProductDao
     abstract fun tableDao(): TableDao
