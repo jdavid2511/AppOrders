@@ -6,6 +6,6 @@ import com.ordersapp.data.table.Table
 
 data class TableState (
     val tables: List<Table> = emptyList(),
-    val id : MutableState<Int> = mutableStateOf(0),
+    val name : MutableState<String> = mutableStateOf(""),
     val total : MutableState<Long> = mutableStateOf(0),
     )

@@ -10,7 +10,7 @@ data class TableProducts(
     @Embedded
     val table: Table,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "name",
         entityColumn = "id",
         associateBy = Junction(TableProductsCrossRef::class)
     )

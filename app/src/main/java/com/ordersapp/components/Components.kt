@@ -79,6 +79,7 @@ import com.ordersapp.app.PostOfficeAppRouter
 import com.ordersapp.app.Screen
 import com.ordersapp.data.category.Category
 import com.ordersapp.presentation.ProductState
+import com.ordersapp.ui.theme.AccentColor
 import com.ordersapp.ui.theme.GrayColor
 import com.ordersapp.ui.theme.Primary
 import com.ordersapp.ui.theme.Secundary
@@ -114,13 +115,13 @@ fun NormalTextComponents(value: String, heightInt: Int) {
 }
 
 @Composable
-fun HeadingTextComponents(value: String) {
+fun HeadingTextComponents(value: String, fontWeigth: FontWeight) {
     Text(
         text = value,
         modifier = Modifier.fillMaxWidth(),
         style = TextStyle(
             fontSize = 30.sp,
-            fontWeight = FontWeight.Normal,
+            fontWeight = fontWeigth,
             fontStyle = FontStyle.Normal,
         ),
         color = TextColor,
@@ -138,6 +139,7 @@ fun EditTextComponents(labelValue: String, imageVector: ImageVector, keyboardTyp
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(start = 20.dp, end = 20.dp)
             .clip(RoundedCornerShape(4.dp))
             .heightIn(min = 40.dp),
         label = { Text(text = labelValue) },
@@ -400,7 +402,7 @@ fun ClickableForgetPassTextComponent(onTextSeleccted: (String) -> Unit) {
 }
 
 @Composable
-fun buttonaddComponent(withInt: Int, padding: Int) {
+fun buttonaddComponent(withInt: Int, padding: Int, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -409,7 +411,7 @@ fun buttonaddComponent(withInt: Int, padding: Int) {
         horizontalArrangement = Arrangement.Center
     ) {
         Button(
-            onClick = { },
+            onClick = onClick,
             modifier = Modifier
                 .widthIn(withInt.dp)
                 .heightIn(70.dp),
@@ -755,7 +757,7 @@ fun buttonSaveComponent(onClick: () -> Unit, value: String) {
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(56.dp)
-            .padding(16.dp),
+            .padding(start = 22.dp, end = 22.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Button(
@@ -771,10 +773,9 @@ fun buttonSaveComponent(onClick: () -> Unit, value: String) {
                     .fillMaxWidth()
                     .heightIn(48.dp)
                     .background(
-                        brush = Brush.horizontalGradient(listOf(Secundary, Primary)),
+                        brush = Brush.horizontalGradient(listOf(GrayColor, Primary)),
                         shape = RoundedCornerShape(50.dp)
                     ),
-
                 contentAlignment = Alignment.Center
             ) {
                 Text(

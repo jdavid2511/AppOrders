@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ordersapp.app.PostOfficeApp
 import com.ordersapp.viewModel.ProductViewModel
+import com.ordersapp.viewModel.TableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,9 +18,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val viewModel = hiltViewModel<ProductViewModel>()
-            val state by viewModel.state.collectAsState()
-            PostOfficeApp(viewModel = viewModel, productState = state)
+            val productViewModel = hiltViewModel<ProductViewModel>()
+            val productState by productViewModel.state.collectAsState()
+
+            val tableViewModel = hiltViewModel<TableViewModel>()
+            val tableState by tableViewModel.state.collectAsState()
+
+            PostOfficeApp(viewModel = productViewModel, productState = productState, tableState = tableState)
         }
     }
 }

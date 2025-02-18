@@ -29,7 +29,7 @@ class TableViewModel @Inject constructor(var database: AppDatabase) : ViewModel(
 
     fun saveTable() {
         val table = Table (
-            id = state.value.id.value,
+            name = state.value.name.value,
             total = state.value.total.value
         )
 
@@ -37,7 +37,7 @@ class TableViewModel @Inject constructor(var database: AppDatabase) : ViewModel(
             database.tableDao().upsertTable(table)
         }
 
-        state.value.id.value = 0
+        state.value.name.value = ""
         state.value.total.value = 0
     }
 }

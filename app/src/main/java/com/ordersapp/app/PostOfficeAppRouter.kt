@@ -7,13 +7,13 @@ sealed class Screen {
     object SignInScreen : Screen()
     object RegisterFoodScreen : Screen()
     object TableOrderScreen : Screen()
-    object AddProductTableScreen : Screen()
-    data class Add(val categoryId: Int) : Screen()
+    object CategoriesScreen : Screen()
+    data class AddProductScreen(val categoryId: Int) : Screen()
     data class ListOfProducts(val categoryId: Int) : Screen()
 }
 
 object PostOfficeAppRouter {
-    var currentScreen: MutableState<Screen> = mutableStateOf(Screen.AddProductTableScreen)
+    var currentScreen: MutableState<Screen> = mutableStateOf(Screen.RegisterFoodScreen)
     private var previousScreen: Screen? = null
 
     fun navigateTo(destination: Screen) {

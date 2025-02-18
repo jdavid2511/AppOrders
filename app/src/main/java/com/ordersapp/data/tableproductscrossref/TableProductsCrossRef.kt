@@ -10,7 +10,7 @@ import com.ordersapp.data.table.Table
     tableName = "table_product",
     primaryKeys = ["tableId", "productId"],
     foreignKeys = [
-        ForeignKey(entity = Table::class, parentColumns = ["id"], childColumns = ["tableId"], onDelete = ForeignKey.CASCADE),
+        ForeignKey(entity = Table::class, parentColumns = ["name"], childColumns = ["tableId"], onDelete = ForeignKey.CASCADE),
         ForeignKey(entity = Product::class, parentColumns = ["id"], childColumns = ["productId"], onDelete = ForeignKey.CASCADE)
     ],
     indices = [Index(value = ["productId"])]

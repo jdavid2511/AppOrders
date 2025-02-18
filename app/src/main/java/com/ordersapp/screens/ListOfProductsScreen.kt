@@ -1,8 +1,10 @@
 package com.ordersapp.screens
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,28 +67,19 @@ fun ListOfProducts(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Productos", style = MaterialTheme.typography.headlineSmall)},
+                title = { Text("Bebidas", style = MaterialTheme.typography.headlineSmall)},
                 navigationIcon = {
                     IconButton(onClick = { PostOfficeAppRouter.onBack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Regresar")
                     }
                 },
-                actions = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.Sort,
-                        contentDescription = "Sort",
-                        modifier = Modifier
-                            .size(35.dp)
-                            .clickable {
-                                //viewModel.changeIsSorting()
-                            })
-                }
+
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    PostOfficeAppRouter.navigateTo(Screen.Add(categoryId))
+                    PostOfficeAppRouter.navigateTo(Screen.AddProductScreen(categoryId))
                 },
             ) {
 
@@ -103,7 +99,9 @@ fun ListOfProducts(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            LazyColumn {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2)
+            ) {
                 items(products) { product ->
                     contactCard(
                         viewModel = viewModel,
@@ -120,7 +118,7 @@ fun ListOfProducts(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun contactCard(
     name: String,
@@ -133,13 +131,13 @@ fun contactCard(
     val context = LocalContext.current
 
     Card(
-        onClick = {
-            state.id.value = id
-            state.name.value = name
-        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .combinedClickable(
+                onClick = { /* Acción para clic corto */ },
+                onLongClick = { /* Acción para clic largo */ }
+            )
             .clip(RoundedCornerShape(12.dp)),
         //colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {

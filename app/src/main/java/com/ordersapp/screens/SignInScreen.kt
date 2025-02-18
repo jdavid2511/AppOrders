@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,7 +46,7 @@ fun SignInScreen (){
             .fillMaxSize()
             .verticalScroll(rememberScrollState())) {
             NormalTextComponents(value = stringResource(id = R.string.Hey_there), 40)
-            HeadingTextComponents(value = stringResource(id = R.string.welcome))
+            HeadingTextComponents(value = stringResource(id = R.string.welcome), fontWeigth = FontWeight.Normal)
             EditTextComponents(labelValue = stringResource(id = R.string.email), imageVector = Icons.Default.Mail, keyboardType = KeyboardType.Text,  value = "", onValueChange = {})
 
             PasswordTextComponents(labelValue = "Password", painterResource = painterResource(id = R.drawable.lock))
