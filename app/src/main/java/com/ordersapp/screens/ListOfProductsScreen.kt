@@ -29,26 +29,35 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import com.ordersapp.app.PostOfficeAppRouter
 import com.ordersapp.app.Screen
+import com.ordersapp.components.DialogWithImage
 import com.ordersapp.presentation.ProductState
 import com.ordersapp.viewModel.ProductViewModel
 
@@ -129,35 +138,38 @@ fun contactCard(
     state: ProductState
 ) {
     val context = LocalContext.current
-
+    val openDialogWithImage = remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .combinedClickable(
-                onClick = { /* Acción para clic corto */ },
-                onLongClick = { /* Acción para clic largo */ }
+                onClick = {  },
+                onLongClick = { openDialogWithImage.value = !openDialogWithImage.value }
             )
             .clip(RoundedCornerShape(12.dp)),
         //colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
+        when {
+            openDialogWithImage.value -> {
+                DialogWithImage(
+                    onDismissRequest = { openDialogWithImage.value = false },
+                    onConfirmation = {
+                        openDialogWithImage.value = false
+                        println("Confirmation registered") // Add logic here to handle confirmation.
+                    },
+                    imageDescription = "TODO",
+                    state = state
+                )
+            }
+        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .height(100.dp)
+                .padding(6.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.Person,
-                contentDescription = "Contact image",
-                modifier = Modifier
-                    .size(64.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.onPrimaryContainer)
-                    .padding(16.dp),
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-            Spacer(modifier = Modifier.width(12.dp))
             Column(
                 modifier = Modifier.weight(1f)
             ) {
@@ -174,26 +186,9 @@ fun contactCard(
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
-            Spacer(modifier = Modifier.width(12.dp))
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                IconButton(onClick = {
-                    state.id.value = id
-                    state.name.value = name
-                    state.price.value = price
-                    state.categoryId.value = categoryId
-                    viewModel.deleteProduct()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete",
-                        tint = MaterialTheme.colorScheme.error
-                    )
-                }
-            }
         }
     }
 }
+
+
 

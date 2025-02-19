@@ -42,7 +42,7 @@ fun CategoriesScreen(productViewModel: ProductViewModel, productState: ProductSt
     Scaffold (
         topBar = {
             TopAppBar(
-                title = { Text("Bebidas", style = MaterialTheme.typography.headlineSmall) },
+                title = { Text("Categorias", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { PostOfficeAppRouter.onBack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Regresar")

@@ -45,7 +45,7 @@ fun  RegisterfoodScreen(productState: ProductState, tableState: TableState) {
         Column {
             HeadingTextComponents(value = "Agregar Mesa", fontWeigth = FontWeight.Bold)
 
-            buttonaddComponent(178, 16, onClick = {PostOfficeAppRouter.navigateTo(Screen.CategoriesScreen)})
+            buttonaddComponent(178, 16, onClick = { PostOfficeAppRouter.navigateTo(Screen.CategoriesScreen) })
 
             Row (modifier = Modifier
                 .fillMaxWidth()
