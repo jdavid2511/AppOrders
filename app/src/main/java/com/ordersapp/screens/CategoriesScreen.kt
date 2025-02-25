@@ -23,20 +23,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.ordersapp.R
-import com.ordersapp.app.PostOfficeAppRouter
-import com.ordersapp.app.Screen
 import com.ordersapp.components.ButtonAddProduct
 import com.ordersapp.components.HeadingTextComponents
+import com.ordersapp.navigation.Routes
 import com.ordersapp.presentation.ProductState
 import com.ordersapp.viewModel.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoriesScreen(productViewModel: ProductViewModel, productState: ProductState) {
+fun CategoriesScreen(
+    productViewModel: ProductViewModel,
+    productState: ProductState,
+    navHostController: NavHostController
+) {
 
     BackHandler (enabled = true) {
-        PostOfficeAppRouter.onBack()
+        navHostController.navigateUp()
     }
 
     Scaffold (
@@ -44,7 +48,7 @@ fun CategoriesScreen(productViewModel: ProductViewModel, productState: ProductSt
             TopAppBar(
                 title = { Text("Categorias", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) },
                 navigationIcon = {
-                    IconButton(onClick = { PostOfficeAppRouter.onBack() }) {
+                    IconButton(onClick = { navHostController.navigateUp() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Regresar")
                     }
                 },
@@ -75,28 +79,22 @@ fun CategoriesScreen(productViewModel: ProductViewModel, productState: ProductSt
                 ) {
 
                     item {
-                        ButtonAddProduct(categoryName = "comida Rapida", image = R.drawable.burger, onClick = { PostOfficeAppRouter.navigateTo(
-                            Screen.ListOfProducts(categoryId = 1))})
+                        ButtonAddProduct(categoryName = "comida Rapida", image = R.drawable.burger, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 1)) })
                     }
                     item {
-                        ButtonAddProduct(categoryName = "Bebidas Frias", image = R.drawable.drink, onClick = { PostOfficeAppRouter.navigateTo(
-                            Screen.ListOfProducts(categoryId = 2))})
+                        ButtonAddProduct(categoryName = "Bebidas Frias", image = R.drawable.drink, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 2))})
                     }
                     item {
-                        ButtonAddProduct(categoryName = "Bebidas Calientes", image = R.drawable.drink, onClick = { PostOfficeAppRouter.navigateTo(
-                            Screen.ListOfProducts(categoryId = 3))})
+                        ButtonAddProduct(categoryName = "Bebidas Calientes", image = R.drawable.drink, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 3))})
                     }
                     item {
-                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { PostOfficeAppRouter.navigateTo(
-                            Screen.ListOfProducts(categoryId = 4))})
+                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 4))})
                     }
                     item {
-                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { PostOfficeAppRouter.navigateTo(
-                            Screen.ListOfProducts(categoryId = 5))})
+                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 5))})
                     }
                     item {
-                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { PostOfficeAppRouter.navigateTo(
-                            Screen.ListOfProducts(categoryId = 6))})
+                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = {navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 6))})
                     }
                 }
             }

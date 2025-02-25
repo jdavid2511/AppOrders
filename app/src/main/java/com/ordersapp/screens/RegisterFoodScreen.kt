@@ -10,29 +10,30 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ordersapp.app.PostOfficeAppRouter
-import com.ordersapp.app.Screen
+import androidx.navigation.NavHostController
 import com.ordersapp.components.DoubleTextComponents
 import com.ordersapp.components.HeadingTextComponents
 import com.ordersapp.components.boxChairComponent
 import com.ordersapp.components.buttonaddComponent
+import com.ordersapp.navigation.Routes
 import com.ordersapp.presentation.ProductState
 import com.ordersapp.presentation.TableState
 
 @Composable
-fun  RegisterfoodScreen(productState: ProductState, tableState: TableState) {
+fun  RegisterfoodScreen(
+    productState: ProductState,
+    tableState: TableState,
+    navHostController: NavHostController
+) {
 
     BackHandler (enabled = true) {
-        PostOfficeAppRouter.onBack()
+        navHostController.navigateUp()
     }
 
     Surface (
@@ -45,7 +46,7 @@ fun  RegisterfoodScreen(productState: ProductState, tableState: TableState) {
         Column {
             HeadingTextComponents(value = "Agregar Mesa", fontWeigth = FontWeight.Bold)
 
-            buttonaddComponent(178, 16, onClick = { PostOfficeAppRouter.navigateTo(Screen.CategoriesScreen) })
+            buttonaddComponent(178, 16, onClick = { navHostController.navigate(Routes.CategoriesScreen.route) })
 
             Row (modifier = Modifier
                 .fillMaxWidth()
@@ -55,7 +56,7 @@ fun  RegisterfoodScreen(productState: ProductState, tableState: TableState) {
             Column (){
                 LazyColumn {
                     items(tableState.tables){ table ->
-                        boxChairComponent("Mesa #" + table.name, table.total.toString())
+                        boxChairComponent("Mesa #" + table.name, table.total.toString(), navHostController)
                     }
                 }
             }

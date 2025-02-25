@@ -18,24 +18,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ordersapp.app.PostOfficeAppRouter
-import com.ordersapp.app.Screen
+import androidx.navigation.NavHostController
 import com.ordersapp.components.DoubleTextComponents
 import com.ordersapp.components.NormalTextComponents
 import com.ordersapp.components.TopAccessComponent
 import com.ordersapp.components.TotalAccountComponent
 import com.ordersapp.components.buttonaddComponent
 import com.ordersapp.components.productTableComponent
+import com.ordersapp.navigation.Routes
 import com.ordersapp.presentation.ProductState
 import com.ordersapp.viewModel.ProductViewModel
 
 @Composable
-fun TableOrderScreen (productViewModel: ProductViewModel, productState: ProductState) {
+fun TableOrderScreen (navHostController: NavHostController, productViewModel: ProductViewModel, productState: ProductState) {
 
     BackHandler (enabled = true) {
-        PostOfficeAppRouter.onBack()
+        navHostController.navigateUp()
     }
 
     Surface (
@@ -50,9 +49,9 @@ fun TableOrderScreen (productViewModel: ProductViewModel, productState: ProductS
                 .fillMaxSize()
         ) {
             Column {
-                TopAccessComponent(table = "Mesa #1")
+                TopAccessComponent(table = "Mesa #1", navHostController = navHostController)
                 NormalTextComponents(value = "Agregar", 10)
-                buttonaddComponent(70, 5, onClick = {PostOfficeAppRouter.navigateTo(Screen.CategoriesScreen)})
+                buttonaddComponent(70, 5, onClick = {navHostController.navigate(Routes.CategoriesScreen.route)})
                 Spacer(modifier = Modifier.padding(10.dp))
                 Row (modifier = Modifier
                     .fillMaxWidth()

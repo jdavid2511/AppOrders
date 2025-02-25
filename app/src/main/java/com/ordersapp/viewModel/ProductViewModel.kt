@@ -2,6 +2,7 @@ package com.ordersapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ordersapp.data.product.Product
 import com.ordersapp.data.di.AppDatabase
 import com.ordersapp.presentation.ProductState
@@ -68,7 +69,17 @@ class ProductViewModel @Inject constructor(var database: AppDatabase) : ViewMode
         state.value.categoryId.value = 0
     }
 
+    fun updateProduct(product: Product) {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.productDao().update(product)
+        }
+    }
+
     fun getProductsByCategory(categoryId: Int): Flow<List<Product>> = flow {
         emit(database.productDao().findByCategory(categoryId))
+    }.flowOn(Dispatchers.IO)
+
+    fun getProductById(id: Int): Flow<Product> = flow {
+        emit(database.productDao().findById(id))
     }.flowOn(Dispatchers.IO)
 }

@@ -21,12 +21,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ordersapp.R
-import com.ordersapp.app.PostOfficeApp
-import com.ordersapp.app.PostOfficeAppRouter
-import com.ordersapp.app.Screen
-import com.ordersapp.components.CheckComponent
-import com.ordersapp.components.ClickableForgetPassTextComponent
-import com.ordersapp.components.ClickableLoginTextComponent
 import com.ordersapp.components.EditTextComponents
 import com.ordersapp.components.HeadingTextComponents
 import com.ordersapp.components.NormalTextComponents

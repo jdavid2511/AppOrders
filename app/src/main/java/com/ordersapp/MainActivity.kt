@@ -7,7 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ordersapp.app.PostOfficeApp
+import androidx.navigation.compose.rememberNavController
+import com.ordersapp.navigation.NavGraph
 import com.ordersapp.viewModel.ProductViewModel
 import com.ordersapp.viewModel.TableViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,15 @@ class MainActivity : ComponentActivity() {
             val tableViewModel = hiltViewModel<TableViewModel>()
             val tableState by tableViewModel.state.collectAsState()
 
-            PostOfficeApp(viewModel = productViewModel, productState = productState, tableState = tableState)
+            val navHostController = rememberNavController()
+
+            NavGraph(
+                navHostController = navHostController,
+                productViewModel = productViewModel,
+                productState = productState,
+                tableState = tableState
+            )
+            //PostOfficeApp(viewModel = productViewModel, productState = productState, tableState = tableState)
         }
     }
 }

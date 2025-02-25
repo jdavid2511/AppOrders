@@ -2,17 +2,14 @@ package com.ordersapp.components
 
 
 import android.util.Log
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -46,7 +43,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -62,7 +58,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -80,18 +75,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
+import androidx.navigation.NavHostController
 import com.ordersapp.R
-import com.ordersapp.app.PostOfficeAppRouter
-import com.ordersapp.app.Screen
 import com.ordersapp.data.category.Category
+import com.ordersapp.navigation.Routes
 import com.ordersapp.presentation.ProductState
-import com.ordersapp.ui.theme.AccentColor
 import com.ordersapp.ui.theme.GrayColor
 import com.ordersapp.ui.theme.Primary
 import com.ordersapp.ui.theme.Secundary
@@ -109,6 +100,7 @@ val rubik = FontFamily(
     Font(R.font.rubik_medium, FontWeight.Normal),
     Font(R.font.rubik_light, FontWeight.Light),
 )
+
 @Composable
 fun NormalTextComponents(value: String, heightInt: Int) {
     Text(
@@ -477,7 +469,7 @@ fun DoubleTextComponents(value1: String, value2: String) {
 }
 
 @Composable
-fun boxChairComponent(chair: String, check: String) {
+fun boxChairComponent(chair: String, check: String, navHostController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -488,7 +480,7 @@ fun boxChairComponent(chair: String, check: String) {
     ) {
         Button(
             onClick = {
-                PostOfficeAppRouter.navigateTo(Screen.TableOrderScreen)
+               navHostController.navigate(Routes.TableOrderScreen.route)
             },
             modifier = Modifier
                 .widthIn(178.dp)
@@ -538,7 +530,7 @@ fun boxChairComponent(chair: String, check: String) {
 }
 
 @Composable
-fun TopAccessComponent(table: String) {
+fun TopAccessComponent(table: String, navHostController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -555,7 +547,7 @@ fun TopAccessComponent(table: String) {
         )
         Button(
             onClick = {
-                PostOfficeAppRouter.navigateTo(Screen.RegisterFoodScreen)
+                navHostController.navigate(Routes.RegisterFoodScreen.route)
             },
             modifier = Modifier
                 .widthIn(44.dp)
@@ -929,9 +921,13 @@ fun ButtonAddProduct(categoryName: String, image: Int, onClick: () -> Unit) {
 @Composable
 fun DialogWithImage(
     onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    imageDescription: String,
     state: ProductState,
+    productViewModel: ProductViewModel,
+    name: String,
+    price: String,
+    id: Int,
+    categoryId: Int,
+    navHostController: NavHostController
 ) {
     Dialog( onDismissRequest = { onDismissRequest() } ) {
         // Draw a rectangle shape with rounded corners inside the dialog
@@ -952,8 +948,14 @@ fun DialogWithImage(
                     modifier = Modifier
                         .fillMaxWidth(),
                     onClick = {
-                    //productViewModel.deleteProduct()
-                }) {
+                        state.id.value = id
+                        state.name.value = name
+                        state.price.value = price
+                        state.categoryId.value = categoryId
+                        productViewModel.deleteProduct()
+                        onDismissRequest()
+                    }
+                ) {
                     Row {
                         Icon(
                             imageVector = Icons.Default.Delete,
@@ -976,8 +978,9 @@ fun DialogWithImage(
                     modifier = Modifier
                         .fillMaxWidth(),
                     onClick = {
-                    //productViewModel.deleteProduct()
-                }) {
+                        navHostController.navigate(Routes.EditProductScreen.route)
+                    }
+                ) {
                     Row {
                         Icon(
                             imageVector = Icons.Default.Edit,
