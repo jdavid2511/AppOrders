@@ -2,7 +2,6 @@ package com.ordersapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ordersapp.data.product.Product
 import com.ordersapp.data.di.AppDatabase
 import com.ordersapp.presentation.ProductState
@@ -40,13 +39,13 @@ class ProductViewModel @Inject constructor(var database: AppDatabase) : ViewMode
             categoryId = state.value.categoryId.value
         )
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             database.productDao().upsertProduct(product)
         }
 
         state.value.id.value = 0
         state.value.name.value = ""
-        state.value.price.value= ""
+        state.value.price.value= 0
         state.value.categoryId.value = 0
 
     }
@@ -59,13 +58,13 @@ class ProductViewModel @Inject constructor(var database: AppDatabase) : ViewMode
             categoryId = state.value.categoryId.value
         )
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             database.productDao().deleteAllProduct(product)
         }
 
         state.value.id.value = 0
         state.value.name.value = ""
-        state.value.price.value= ""
+        state.value.price.value= 0
         state.value.categoryId.value = 0
     }
 
@@ -80,6 +79,6 @@ class ProductViewModel @Inject constructor(var database: AppDatabase) : ViewMode
     }.flowOn(Dispatchers.IO)
 
     fun getProductById(id: Int): Flow<Product> = flow {
-        emit(database.productDao().findById(id))
+        emit(database.productDao().productFindById(id))
     }.flowOn(Dispatchers.IO)
 }

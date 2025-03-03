@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "tables")
 data class Table(
     @PrimaryKey
-    @ColumnInfo(name = "name")
-    val name: String,
+    @ColumnInfo(name = "id")
+    val id: Int,
 
     @ColumnInfo(name = "total")
     val total: Long,

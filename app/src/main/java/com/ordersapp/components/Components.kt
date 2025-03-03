@@ -81,6 +81,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.ordersapp.R
 import com.ordersapp.data.category.Category
+import com.ordersapp.data.table.Table
+import com.ordersapp.data.tableproductscrossref.TableProductsCrossRef
 import com.ordersapp.navigation.Routes
 import com.ordersapp.presentation.ProductState
 import com.ordersapp.ui.theme.GrayColor
@@ -91,6 +93,7 @@ import com.ordersapp.ui.theme.WhiteColor
 import com.ordersapp.ui.theme.bgPrimary
 import com.ordersapp.ui.theme.textbtn
 import com.ordersapp.viewModel.ProductViewModel
+import com.ordersapp.viewModel.TableViewModel
 
 
 val rubik = FontFamily(
@@ -442,7 +445,7 @@ fun buttonaddComponent(withInt: Int, padding: Int, onClick: () -> Unit) {
 }
 
 @Composable
-fun DoubleTextComponents(value1: String, value2: String) {
+fun DoubleTextComponents(value1: String, value2: String, tableViewModel: TableViewModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -469,7 +472,7 @@ fun DoubleTextComponents(value1: String, value2: String) {
 }
 
 @Composable
-fun boxChairComponent(chair: String, check: String, navHostController: NavHostController) {
+fun boxChairComponent(chair: String, tableId: Int, check: String, navHostController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -480,7 +483,7 @@ fun boxChairComponent(chair: String, check: String, navHostController: NavHostCo
     ) {
         Button(
             onClick = {
-               navHostController.navigate(Routes.TableOrderScreen.route)
+                navHostController.navigate(Routes.TableOrderScreen.createRoute(tableId))
             },
             modifier = Modifier
                 .widthIn(178.dp)
@@ -511,7 +514,7 @@ fun boxChairComponent(chair: String, check: String, navHostController: NavHostCo
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = chair,
+                        text = chair+tableId,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         color = TextColor
@@ -576,8 +579,17 @@ fun TopAccessComponent(table: String, navHostController: NavHostController) {
 }
 
 @Composable
-fun productTableComponent(product: String, price: String, quantity: String) {
-    var contQuatity : Int = quantity.toInt()
+fun productTableComponent(
+    tableViewModel: TableViewModel,
+    tableId: Int,
+    productId: Int,
+    product: String,
+    price: String,
+    quantity: Int,
+    totalTable: Long
+) {
+    var contQuantity by remember { mutableStateOf(quantity) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -635,7 +647,24 @@ fun productTableComponent(product: String, price: String, quantity: String) {
                 ) {
 
                     Button(
-                        onClick = {contQuatity--},
+                        onClick = {
+                            if (contQuantity > 1) {
+                                tableViewModel.updateTable(
+                                    Table(
+                                        tableId,
+                                        totalTable - price.toLong()
+                                    )
+                                )
+                                contQuantity -= 1
+                                tableViewModel.updateTableCrossRef(
+                                    TableProductsCrossRef(
+                                        tableId,
+                                        productId,
+                                        contQuantity
+                                    )
+                                )
+                            }
+                        },
                         modifier = Modifier
                             .widthIn(24.dp)
                             .heightIn(24.dp),
@@ -661,7 +690,7 @@ fun productTableComponent(product: String, price: String, quantity: String) {
                     }
 
                     Text(
-                        text = contQuatity.toString(),
+                        text = contQuantity.toString(),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         color = TextColor,
@@ -669,7 +698,17 @@ fun productTableComponent(product: String, price: String, quantity: String) {
                     )
 
                     Button(
-                        onClick = {contQuatity++},
+                        onClick = {
+                            tableViewModel.updateTable(Table(tableId, totalTable + price.toLong()))
+                            contQuantity += 1
+                            tableViewModel.updateTableCrossRef(
+                                TableProductsCrossRef(
+                                    tableId,
+                                    productId,
+                                    contQuantity
+                                )
+                            )
+                        },
                         modifier = Modifier
                             .widthIn(24.dp)
                             .heightIn(24.dp),
@@ -708,10 +747,10 @@ fun TotalAccountComponent(value: String, total: String) {
         shadowElevation = 16.dp
     ) {
         Button(
-            onClick = {},
+            onClick = {  },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(90.dp)
+                .height(120.dp)
                 .padding(10.dp),
             shape = RoundedCornerShape(20.dp),
             contentPadding = PaddingValues(),
@@ -728,10 +767,10 @@ fun TotalAccountComponent(value: String, total: String) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(90.dp)
+                        .height(100.dp)
                         .padding(
                             horizontal = 60.dp,
-                            vertical = 16.dp
+                            vertical = 10.dp
                         ),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
@@ -924,7 +963,7 @@ fun DialogWithImage(
     state: ProductState,
     productViewModel: ProductViewModel,
     name: String,
-    price: String,
+    price: Long,
     id: Int,
     categoryId: Int,
     navHostController: NavHostController

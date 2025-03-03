@@ -2,9 +2,7 @@ package com.ordersapp.data.product
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.ordersapp.data.table.Table
 
 @Entity(tableName = "Product")
 data class Product (
@@ -16,7 +14,7 @@ data class Product (
     var name: String,
 
     @ColumnInfo(name = "price")
-    var price: String,
+    var price: Long,
 
     @ColumnInfo(name = "category_id")
     var categoryId: Int

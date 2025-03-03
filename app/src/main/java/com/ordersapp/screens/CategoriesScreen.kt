@@ -36,9 +36,10 @@ import com.ordersapp.viewModel.ProductViewModel
 fun CategoriesScreen(
     productViewModel: ProductViewModel,
     productState: ProductState,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    tableId: Int,
 ) {
-
+    println("+++++++++++++$tableId")
     BackHandler (enabled = true) {
         navHostController.navigateUp()
     }
@@ -78,23 +79,23 @@ fun CategoriesScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
 
-                    item {
-                        ButtonAddProduct(categoryName = "comida Rapida", image = R.drawable.burger, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 1)) })
-                    }
-                    item {
-                        ButtonAddProduct(categoryName = "Bebidas Frias", image = R.drawable.drink, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 2))})
-                    }
-                    item {
-                        ButtonAddProduct(categoryName = "Bebidas Calientes", image = R.drawable.drink, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 3))})
-                    }
-                    item {
-                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 4))})
-                    }
-                    item {
-                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 5))})
-                    }
-                    item {
-                        ButtonAddProduct(categoryName = "Almuerzos", image = R.drawable.fries, onClick = {navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = 6))})
+                    val categories = listOf(
+                        Pair("Comida Rápida", R.drawable.burger),
+                        Pair("Bebidas Frías", R.drawable.drink),
+                        Pair("Bebidas Calientes", R.drawable.drink),
+                        Pair("Almuerzos", R.drawable.fries),
+                        Pair("Almuerzos", R.drawable.fries),
+                        Pair("Almuerzos", R.drawable.fries)
+                    )
+
+                    categories.forEachIndexed { index, (name, image) ->
+                        item {
+                            ButtonAddProduct(
+                                categoryName = name,
+                                image = image,
+                                onClick = { navHostController.navigate(Routes.ListOfProducts.createRoute(categoryId = index + 1, tableId = tableId)) }
+                            )
+                        }
                     }
                 }
             }

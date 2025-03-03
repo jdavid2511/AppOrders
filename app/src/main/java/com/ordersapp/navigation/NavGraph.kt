@@ -14,24 +14,37 @@ import com.ordersapp.screens.RegisterfoodScreen
 import com.ordersapp.screens.SignInScreen
 import com.ordersapp.screens.TableOrderScreen
 import com.ordersapp.viewModel.ProductViewModel
+import com.ordersapp.viewModel.TableProductsCrossRefViewModel
+import com.ordersapp.viewModel.TableViewModel
 
 @Composable
-fun NavGraph(navHostController: NavHostController, productViewModel: ProductViewModel, productState : ProductState, tableState: TableState) {
+fun NavGraph(
+    navHostController: NavHostController,
+    productViewModel: ProductViewModel,
+    productState: ProductState,
+    tableViewModel: TableViewModel,
+    tableState: TableState,
+    tableProductsCrossRefViewModel: TableProductsCrossRefViewModel
+) {
 
     NavHost(navController = navHostController, startDestination = Routes.RegisterFoodScreen.route) {
-
-        composable(Routes.TableOrderScreen.route) {
+        composable(Routes.TableOrderScreen.route) { backStackEntry ->
+            val tableId = backStackEntry.arguments?.getString("tableId")?.toIntOrNull() ?: 0
             TableOrderScreen(
+                navHostController = navHostController,
+                tableViewModel = tableViewModel,
                 productViewModel = productViewModel,
-                productState = productState,
-                navHostController = navHostController
+                tableInt = tableId,
+                tableProductsCrossRefViewModel = tableProductsCrossRefViewModel
             )
         }
-        composable(Routes.CategoriesScreen.route) {
+        composable(Routes.CategoriesScreen.route) { backStackEntry ->
+            val tableId = backStackEntry.arguments?.getString("tableId")?.toIntOrNull() ?: 0
             CategoriesScreen(
-                navHostController = navHostController,
                 productViewModel = productViewModel,
-                productState = productState
+                productState = productState,
+                navHostController = navHostController,
+                tableId = tableId
             )
         }
         composable(Routes.AddProductScreen.route) { backStackEntry ->
@@ -44,12 +57,15 @@ fun NavGraph(navHostController: NavHostController, productViewModel: ProductView
             )
         }
         composable(Routes.ListOfProducts.route) { backStackEntry ->
-            val categoryId = backStackEntry.arguments?.getString("categoryId")?.toIntOrNull() ?: 1
+            val categoryId = backStackEntry.arguments?.getString("categoryId")?.toIntOrNull() ?: 0
+            val tableId = backStackEntry.arguments?.getString("tableId")?.toIntOrNull() ?: 0
             ListOfProducts(
                 navHostController = navHostController,
-                viewModel = productViewModel,
-                state = productState,
-                categoryId = categoryId
+                productViewModel = productViewModel,
+                tableViewModel = tableViewModel,
+                productState = productState,
+                categoryId = categoryId,
+                tableId = tableId
             )
         }
         composable(Routes.EditProductScreen.route) { backStackEntry ->
@@ -66,8 +82,7 @@ fun NavGraph(navHostController: NavHostController, productViewModel: ProductView
         }
         composable(Routes.RegisterFoodScreen.route) {
             RegisterfoodScreen(
-                productState = productState,
-                tableState = tableState,
+                tableViewModel = tableViewModel,
                 navHostController = navHostController
             )
         }

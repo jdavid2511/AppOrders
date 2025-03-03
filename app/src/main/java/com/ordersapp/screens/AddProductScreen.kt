@@ -34,7 +34,12 @@ import java.io.InputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProductScreen(navHostController: NavHostController, productViewModel: ProductViewModel, productState: ProductState, categoryId: Int) {
+fun AddProductScreen(
+    navHostController: NavHostController,
+    productViewModel: ProductViewModel,
+    productState: ProductState,
+    categoryId: Int
+) {
     productState.categoryId.value = categoryId
     val context = LocalContext.current
 
@@ -78,7 +83,7 @@ fun AddProductScreen(navHostController: NavHostController, productViewModel: Pro
             Spacer(modifier = Modifier.height(30.dp))
             EditTextComponents(labelValue = "Nombre", imageVector = Icons.Default.Edit, keyboardType = KeyboardType.Text, value = productState.name.value, onValueChange = { productState.name.value = it })
             Spacer(modifier = Modifier.height(30.dp))
-            EditTextComponents(labelValue = "Precio", imageVector = Icons.Default.CurrencyExchange, keyboardType = KeyboardType.Number, value = productState.price.value, onValueChange = { productState.price.value = it })
+            EditTextComponents(labelValue = "Precio", imageVector = Icons.Default.CurrencyExchange, keyboardType = KeyboardType.Number, value = productState.price.value.toString(), onValueChange = { productState.price.value = it.toLong() })
             Spacer(modifier = Modifier.height(30.dp))
             Spacer(modifier = Modifier.height(16.dp))
 

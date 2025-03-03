@@ -40,23 +40,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.ordersapp.components.DialogWithImage
+import com.ordersapp.data.table.Table
 import com.ordersapp.navigation.Routes
 import com.ordersapp.presentation.ProductState
 import com.ordersapp.viewModel.ProductViewModel
+import com.ordersapp.viewModel.TableViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListOfProducts(
     navHostController: NavHostController,
-    viewModel: ProductViewModel,
-    state: ProductState,
-    categoryId: Int
+    productViewModel: ProductViewModel,
+    tableViewModel: TableViewModel,
+    productState: ProductState,
+    categoryId: Int,
+    tableId: Int
 ) {
     BackHandler (enabled = true) {
         navHostController.navigateUp()
     }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -66,7 +71,6 @@ fun ListOfProducts(
                         Icon(Icons.Default.ArrowBack, contentDescription = "Regresar")
                     }
                 },
-
             )
         },
         floatingActionButton = {
@@ -75,17 +79,17 @@ fun ListOfProducts(
                     navHostController.navigate(Routes.AddProductScreen.createRoute(categoryId = categoryId))
                 },
             ) {
-
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add"
                 )
-
             }
         }
     ) {
-        val products by viewModel.getProductsByCategory(categoryId)
+        val products by productViewModel.getProductsByCategory(categoryId)
             .collectAsState(initial = emptyList())
+
+        println(products)
 
         Column(
             modifier = Modifier
@@ -97,12 +101,14 @@ fun ListOfProducts(
             ) {
                 items(products) { product ->
                     contactCard(
-                        viewModel = viewModel,
-                        state = state,
+                        tableViewModel = tableViewModel,
+                        productViewModel = productViewModel,
+                        state = productState,
                         name = product.name,
                         price = product.price,
                         id = product.id,
                         categoryId = categoryId,
+                        tableId = tableId,
                         navHostController = navHostController
                     )
                 }
@@ -116,21 +122,35 @@ fun ListOfProducts(
 @Composable
 fun contactCard(
     name: String,
-    price: String,
+    price: Long,
     id: Int,
     categoryId: Int,
-    viewModel: ProductViewModel,
+    productViewModel: ProductViewModel,
+    tableViewModel: TableViewModel,
     state: ProductState,
+    tableId: Int,
     navHostController: NavHostController
 ) {
-    val context = LocalContext.current
     val openDialogWithImage = remember { mutableStateOf(false) }
+
+    val currentTotal by tableViewModel.getTotalByTableId(tableId).collectAsState(initial = 0L)
+
+    println(currentTotal)
+
+    val table = Table (
+        id = tableId,
+        total = (currentTotal ?: 0L) + price
+    )
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .combinedClickable(
-                onClick = {  },
+                onClick = {
+                    tableViewModel.saveTableWithProducts(table, id)
+                    navHostController.navigate(Routes.TableOrderScreen.createRoute(tableId))
+                },
                 onLongClick = { openDialogWithImage.value = !openDialogWithImage.value }
             )
             .clip(RoundedCornerShape(12.dp)),
@@ -141,7 +161,7 @@ fun contactCard(
                 DialogWithImage(
                     onDismissRequest = { openDialogWithImage.value = false },
                     state = state,
-                    productViewModel = viewModel,
+                    productViewModel = productViewModel,
                     name = name,
                     price = price,
                     id = id,
@@ -168,7 +188,7 @@ fun contactCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = price,
+                    text = price.toString(),
                     fontSize = 18.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )

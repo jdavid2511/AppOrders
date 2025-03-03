@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.ordersapp.navigation.NavGraph
 import com.ordersapp.viewModel.ProductViewModel
+import com.ordersapp.viewModel.TableProductsCrossRefViewModel
 import com.ordersapp.viewModel.TableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,15 +26,18 @@ class MainActivity : ComponentActivity() {
             val tableViewModel = hiltViewModel<TableViewModel>()
             val tableState by tableViewModel.state.collectAsState()
 
+            val tableProductsCrossRefViewModel = hiltViewModel<TableProductsCrossRefViewModel>()
+
             val navHostController = rememberNavController()
 
             NavGraph(
                 navHostController = navHostController,
                 productViewModel = productViewModel,
                 productState = productState,
-                tableState = tableState
+                tableViewModel = tableViewModel,
+                tableState = tableState,
+                tableProductsCrossRefViewModel = tableProductsCrossRefViewModel
             )
-            //PostOfficeApp(viewModel = productViewModel, productState = productState, tableState = tableState)
         }
     }
 }
