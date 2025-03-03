@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -45,6 +46,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,6 +63,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -94,6 +97,8 @@ import com.ordersapp.ui.theme.bgPrimary
 import com.ordersapp.ui.theme.textbtn
 import com.ordersapp.viewModel.ProductViewModel
 import com.ordersapp.viewModel.TableViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 val rubik = FontFamily(
@@ -445,7 +450,7 @@ fun buttonaddComponent(withInt: Int, padding: Int, onClick: () -> Unit) {
 }
 
 @Composable
-fun DoubleTextComponents(value1: String, value2: String, tableViewModel: TableViewModel) {
+fun DoubleTextComponents(value1: String, value2: String, tableId: Int, tableViewModel: TableViewModel, onClick: (Int) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -461,12 +466,16 @@ fun DoubleTextComponents(value1: String, value2: String, tableViewModel: TableVi
             fontFamily = rubik
         )
 
-        Text(
-            text = value2,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Light,
-            color = Primary,
-            fontFamily = rubik
+        ClickableText(
+            text = AnnotatedString(value2),
+            style = TextStyle(
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Light,
+                color = Primary,
+                fontFamily = rubik
+            ),
+            onClick = onClick
+
         )
     }
 }
@@ -584,11 +593,12 @@ fun productTableComponent(
     tableId: Int,
     productId: Int,
     product: String,
-    price: String,
+    price: Long,
     quantity: Int,
     totalTable: Long
 ) {
     var contQuantity by remember { mutableStateOf(quantity) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -598,6 +608,16 @@ fun productTableComponent(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        if (showDialog) {
+            AlertDialogRequest(
+                onDismiss = { showDialog = false },
+                title = "¿Desea eliminar el producto?",
+                onClick = {
+                    tableViewModel.deleteProduct(tableId = tableId, productId = productId, productPrice = price)
+                    showDialog = false
+                }
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -631,7 +651,7 @@ fun productTableComponent(
                     )
 
                     Text(
-                        text = price,
+                        text = price.toString(),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Light,
                         color = Primary,
@@ -663,6 +683,8 @@ fun productTableComponent(
                                         contQuantity
                                     )
                                 )
+                            } else {
+                                showDialog = true
                             }
                         },
                         modifier = Modifier
@@ -1039,4 +1061,91 @@ fun DialogWithImage(
 
         }
     }
+}
+
+@Composable
+fun TableDialog(
+    onDismiss: () -> Unit,
+    tableViewModel: TableViewModel,
+    navHostController: NavHostController,
+) {
+    var tableNumber by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
+    var checkTable by remember { mutableStateOf(false) } // Estado para activar la verificación
+
+    // Ejecutar la verificación cuando `checkTable` cambie a true
+    LaunchedEffect(checkTable) {
+        if (checkTable) {
+            val exists = withContext(Dispatchers.IO) { tableViewModel.checkTable(tableNumber) }
+            if (!exists) {
+                errorMessage = "Esta mesa ya está registrada"
+            } else {
+                navHostController.navigate(Routes.CategoriesScreen.createRoute(tableNumber.toInt()))
+            }
+            checkTable = false // Resetear el estado después de la verificación
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = { Text(text = "Ingrese el número de la mesa") },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = tableNumber,
+                    onValueChange = { tableNumber = it },
+                    label = { Text("Número de mesa") },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    ),
+                    isError = errorMessage.isNotEmpty()
+                )
+                if (errorMessage.isNotEmpty()) {
+                    Text(
+                        text = errorMessage,
+                        color = Color.Red,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = {
+                if (tableNumber.isBlank()) {
+                    errorMessage = "Ingrese un número válido"
+                    return@Button
+                }
+                checkTable = true // Activar la verificación en `LaunchedEffect`
+            }) {
+                Text("Aceptar")
+            }
+        },
+        dismissButton = {
+            Button(onClick = { onDismiss() }) {
+                Text("Cancelar")
+            }
+        }
+    )
+}
+
+@Composable
+fun AlertDialogRequest(
+    onDismiss: () -> Unit,
+    title: String,
+    onClick: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = { Text(text = title) },
+        confirmButton = {
+            Button(onClick = onClick) {
+                Text("Aceptar")
+            }
+        },
+        dismissButton = {
+            Button(onClick = { onDismiss() }) {
+                Text("Cancelar")
+            }
+        }
+    )
 }

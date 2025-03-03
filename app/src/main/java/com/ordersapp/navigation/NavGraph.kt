@@ -34,7 +34,7 @@ fun NavGraph(
                 navHostController = navHostController,
                 tableViewModel = tableViewModel,
                 productViewModel = productViewModel,
-                tableInt = tableId,
+                tableId = tableId,
                 tableProductsCrossRefViewModel = tableProductsCrossRefViewModel
             )
         }

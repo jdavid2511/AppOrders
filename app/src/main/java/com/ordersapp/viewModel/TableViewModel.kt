@@ -63,4 +63,18 @@ class TableViewModel @Inject constructor(var database: AppDatabase) : ViewModel(
     fun getTotalByTableId(tableId: Int): Flow<Long> {
         return database.tableDao().getTotalByTableId(tableId)
     }
+
+    fun deleteAllProducts(tableId: Int) {
+        viewModelScope.launch {
+            database.tableDao().deleteAllProducts(tableId)
+            database.tableDao().resetTableTotal(tableId)
+        }
+    }
+
+    fun deleteProduct(tableId: Int, productId: Int, productPrice: Long){
+        viewModelScope.launch {
+            database.tableDao().deleteProduct(tableId, productId)
+            database.tableDao().updateTableTotalAfterDeletion(tableId, productPrice)
+        }
+    }
 }

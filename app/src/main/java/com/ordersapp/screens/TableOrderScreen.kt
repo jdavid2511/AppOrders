@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.ordersapp.components.AlertDialogRequest
 import com.ordersapp.components.DoubleTextComponents
 import com.ordersapp.components.NormalTextComponents
 import com.ordersapp.components.TopAccessComponent
@@ -42,10 +43,10 @@ fun TableOrderScreen(
     navHostController: NavHostController,
     tableViewModel: TableViewModel,
     productViewModel: ProductViewModel,
-    tableInt: Int,
+    tableId: Int,
     tableProductsCrossRefViewModel: TableProductsCrossRefViewModel
 ) {
-
+    var showDialog by remember { mutableStateOf(false) }
     BackHandler (enabled = true) {
         navHostController.navigateUp()
     }
@@ -62,16 +63,31 @@ fun TableOrderScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-
             Column {
-                TopAccessComponent(table = "Mesa #$tableInt", navHostController = navHostController)
+                TopAccessComponent(table = "Mesa #$tableId", navHostController = navHostController)
                 NormalTextComponents(value = "Agregar", 10)
-                buttonaddComponent(70, 5, onClick = {navHostController.navigate(Routes.CategoriesScreen.createRoute(tableInt))})
+                Spacer(modifier = Modifier.padding(5.dp))
+                buttonaddComponent(70, 5, onClick = {navHostController.navigate(Routes.CategoriesScreen.createRoute(tableId))})
                 Spacer(modifier = Modifier.padding(10.dp))
                 Row (modifier = Modifier
                     .fillMaxWidth()
                     .height(30.dp)) {
-                    DoubleTextComponents("Pedido", "Borrar todo", tableViewModel = tableViewModel)
+                    DoubleTextComponents(
+                        value1 = "Pedido",
+                        value2 = "Borrar todo",
+                        tableId = tableId,
+                        tableViewModel = tableViewModel,
+                        onClick = { showDialog = true }
+                    )
+                    if (showDialog) {
+                        AlertDialogRequest(
+                            onDismiss = { showDialog = false },
+                            title = "¿Desea borrar todos los productos?",
+                            onClick = {
+                                tableViewModel.deleteAllProducts(tableId = tableId)
+                            }
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.padding(5.dp))
 
@@ -80,7 +96,7 @@ fun TableOrderScreen(
                         .height(400.dp)
                         .padding(horizontal = 16.dp)
                 ) {
-                    val productsCrossRef by tableProductsCrossRefViewModel.getAllItems(tableInt.toString()).collectAsState(initial = emptyList())
+                    val productsCrossRef by tableProductsCrossRefViewModel.getAllItems(tableId.toString()).collectAsState(initial = emptyList())
                     LazyColumn {
                         items(productsCrossRef) { tableProduct ->
                             val currentTotal by tableViewModel.getTotalByTableId(tableProduct.tableId).collectAsState(initial = 0L)
@@ -91,7 +107,7 @@ fun TableOrderScreen(
                                 tableProduct.tableId,
                                 tableProduct.productId,
                                 product.name,
-                                product.price.toString(),
+                                product.price,
                                 tableProduct.quantity,
                                 total
                             )

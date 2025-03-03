@@ -1,6 +1,7 @@
 package com.ordersapp.data.table
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -63,4 +64,17 @@ interface TableDao {
 
     @Update
     fun updateTableCrossRef(tableProductsCrossRef: TableProductsCrossRef)
+
+    @Query("DELETE FROM table_product WHERE tableId = :tableId")
+    suspend fun deleteAllProducts(tableId: Int)
+
+    @Query("UPDATE tables SET total = 0 WHERE id = :tableId")
+    suspend fun resetTableTotal(tableId: Int)
+
+    @Query("DELETE FROM table_product WHERE tableId= :tableId AND productId= :productId")
+    suspend fun deleteProduct(tableId: Int, productId: Int)
+
+    @Query("UPDATE tables SET total = total - :productPrice WHERE id = :tableId")
+    suspend fun updateTableTotalAfterDeletion(tableId: Int, productPrice: Long)
+
 }
