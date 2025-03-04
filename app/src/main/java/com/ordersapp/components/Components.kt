@@ -772,7 +772,7 @@ fun TotalAccountComponent(value: String, total: String) {
             onClick = {  },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
+                .height(130.dp)
                 .padding(10.dp),
             shape = RoundedCornerShape(20.dp),
             contentPadding = PaddingValues(),
@@ -789,7 +789,7 @@ fun TotalAccountComponent(value: String, total: String) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
+                        .height(110.dp)
                         .padding(
                             horizontal = 60.dp,
                             vertical = 10.dp

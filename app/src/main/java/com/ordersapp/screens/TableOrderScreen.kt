@@ -47,19 +47,26 @@ fun TableOrderScreen(
     tableProductsCrossRefViewModel: TableProductsCrossRefViewModel
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    BackHandler (enabled = true) {
+
+    BackHandler(enabled = true) {
         navHostController.navigateUp()
     }
 
-    Surface (
+    // Obtener lista de productos en la mesa
+    val productsCrossRef by tableProductsCrossRefViewModel.getAllItems(tableId.toString())
+        .collectAsState(initial = emptyList())
+
+    // Obtener total de la cuenta
+    val total by tableViewModel.getTotalByTableId(tableId).collectAsState(initial = 0L)
+
+    Surface(
         color = Color.White,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(top = 50.dp)
     ) {
-        var total by remember { mutableStateOf(0L) }
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxSize()
         ) {
@@ -67,11 +74,20 @@ fun TableOrderScreen(
                 TopAccessComponent(table = "Mesa #$tableId", navHostController = navHostController)
                 NormalTextComponents(value = "Agregar", 10)
                 Spacer(modifier = Modifier.padding(5.dp))
-                buttonaddComponent(70, 5, onClick = {navHostController.navigate(Routes.CategoriesScreen.createRoute(tableId))})
+                buttonaddComponent(
+                    70,
+                    5,
+                    onClick = {
+                        navHostController.navigate(
+                            Routes.CategoriesScreen.createRoute(tableId)
+                        )
+                    })
                 Spacer(modifier = Modifier.padding(10.dp))
-                Row (modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(30.dp)
+                ) {
                     DoubleTextComponents(
                         value1 = "Pedido",
                         value2 = "Borrar todo",
@@ -91,17 +107,15 @@ fun TableOrderScreen(
                 }
                 Spacer(modifier = Modifier.padding(5.dp))
 
-                Column (
+                Column(
                     modifier = Modifier
-                        .height(400.dp)
+                        .height(390.dp)
                         .padding(horizontal = 16.dp)
                 ) {
-                    val productsCrossRef by tableProductsCrossRefViewModel.getAllItems(tableId.toString()).collectAsState(initial = emptyList())
                     LazyColumn {
                         items(productsCrossRef) { tableProduct ->
-                            val currentTotal by tableViewModel.getTotalByTableId(tableProduct.tableId).collectAsState(initial = 0L)
-                            total = currentTotal
-                            val product by productViewModel.getProductById(tableProduct.productId).collectAsState( Product(0,"",0,0))
+                            val product by productViewModel.getProductById(tableProduct.productId)
+                                .collectAsState(Product(0, "", 0, 0))
                             productTableComponent(
                                 tableViewModel,
                                 tableProduct.tableId,
@@ -118,7 +132,7 @@ fun TableOrderScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(8.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 12.dp)
                     .navigationBarsPadding(),
                 contentAlignment = Alignment.BottomCenter
             ) {

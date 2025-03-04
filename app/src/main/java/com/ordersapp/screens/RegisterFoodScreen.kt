@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -73,7 +74,6 @@ fun  RegisterfoodScreen(
             Column {
                 LazyColumn {
                     items(tableViewModel.state.value.tables) { table ->
-                        println(table)
                         boxChairComponent(
                             chair = "Mesa #",
                             tableId = table.id,

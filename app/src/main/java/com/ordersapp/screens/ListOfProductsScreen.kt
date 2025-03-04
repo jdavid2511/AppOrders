@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.ordersapp.R
 import com.ordersapp.components.DialogWithImage
 import com.ordersapp.data.table.Table
 import com.ordersapp.navigation.Routes
@@ -64,8 +65,16 @@ fun ListOfProducts(
     }
     Scaffold(
         topBar = {
+            val categories = listOf(
+                1 to "Comida Rápida",
+                2 to "Bebidas Frías",
+                3 to "Bebidas Calientes",
+                4 to "Almuerzos"
+            )
+            // Obtener el nombre de la categoría seleccionada
+            val categoryName = categories.firstOrNull { it.first == categoryId }?.second ?: "Desconocido"
             TopAppBar(
-                title = { Text("Bebidas", style = MaterialTheme.typography.headlineSmall)},
+                title = { Text(categoryName, style = MaterialTheme.typography.headlineSmall)},
                 navigationIcon = {
                     IconButton(onClick = { navHostController.navigateUp() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Regresar")
@@ -154,7 +163,6 @@ fun contactCard(
                 onLongClick = { openDialogWithImage.value = !openDialogWithImage.value }
             )
             .clip(RoundedCornerShape(12.dp)),
-        //colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
         when {
             openDialogWithImage.value -> {
